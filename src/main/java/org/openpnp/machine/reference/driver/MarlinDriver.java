@@ -67,6 +67,13 @@ public class MarlinDriver extends AbstractSerialPortDriver implements Runnable {
     @Element(required=false)
     protected String actuatorOffGcode = "M9";
     
+     @Element(required=false)
+    protected String actuatorVibrateOnGcode = "M42 S17 A255";
+    
+    @Element(required=false)
+    protected String actuatorVibrateOffGcode = "M42 S17 A0";
+    
+    
     @Element(required=false)
     protected String enableGcode = "M17";
     
@@ -90,6 +97,10 @@ public class MarlinDriver extends AbstractSerialPortDriver implements Runnable {
 			throws Exception {
 		if (actuator.getIndex() == 0) {
 			sendCommand(on ? actuatorOnGcode : actuatorOffGcode);
+			dwell();
+		}
+		if (actuator.getIndex() == 1) {
+			sendCommand(on ? actuatorVibrateOnGcode : actuatorVibrateOffGcode);
 			dwell();
 		}
 	}
